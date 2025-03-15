@@ -35,20 +35,53 @@ $(document).ready(function() {
         showSlide(currentSlide);
     });
 
-    // Auto-play del carrusel
+    // Variables para el swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    // Modificar el auto-play para que sea más rápido en móvil
+    const autoPlayInterval = window.innerWidth < 768 ? 3000 : 5000;
+    
+    // Actualizar el intervalo inicial
     let slideInterval = setInterval(() => {
         currentSlide = (currentSlide + 1) % totalSlides;
         showSlide(currentSlide);
-    }, 5000);
+    }, autoPlayInterval);
 
-    // Pausar auto-play al hover
+    // Eventos touch para el swipe
+    $(".carrusel").on('touchstart', function(e) {
+        touchStartX = e.originalEvent.touches[0].clientX;
+    });
+
+    $(".carrusel").on('touchend', function(e) {
+        touchEndX = e.originalEvent.changedTouches[0].clientX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // Mínima distancia para considerar un swipe
+        const swipeDistance = touchEndX - touchStartX;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance > 0) {
+                // Swipe derecha - slide anterior
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            } else {
+                // Swipe izquierda - siguiente slide
+                currentSlide = (currentSlide + 1) % totalSlides;
+            }
+            showSlide(currentSlide);
+        }
+    }
+
+    // Actualizar el hover para usar el nuevo intervalo
     $(".carrusel").hover(
         function() { clearInterval(slideInterval); },
         function() {
             slideInterval = setInterval(() => {
                 currentSlide = (currentSlide + 1) % totalSlides;
                 showSlide(currentSlide);
-            }, 5000);
+            }, autoPlayInterval);
         }
     );
 
