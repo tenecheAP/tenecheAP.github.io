@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panadería & Pastelería Artesanal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-bread-slice"></i>
+                    <h1>Panadería & Pastelería Artesanal</h1>
+                </div>
+                <ul class="menu">
+                    <li><a href="#inicio" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#productos"><i class="fas fa-store"></i> Productos</a></li>
+                    <li><a href="#nosotros"><i class="fas fa-users"></i> Nosotros</a></li>
+                    <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="destacados-banner">
+            <div class="destacado-item">
+                <i class="fas fa-truck"></i>
+                <div class="destacado-info">
+                    <h3>Envío Gratis</h3>
+                    <p>En pedidos mayores a $50.000</p>
+                </div>
+            </div>
+            <div class="destacado-item">
+                <i class="fas fa-clock"></i>
+                <div class="destacado-info">
+                    <h3>Pan Fresco</h3>
+                    <p>Horneado cada 2 horas</p>
+                </div>
+            </div>
+            <div class="destacado-item">
+                <i class="fas fa-medal"></i>
+                <div class="destacado-info">
+                    <h3>Calidad Premium</h3>
+                    <p>Ingredientes naturales</p>
+                </div>
+            </div>
+            <div class="destacado-item">
+                <i class="fas fa-percent"></i>
+                <div class="destacado-info">
+                    <h3>Descuentos</h3>
+                    <p>10% en compras online</p>
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <div class="carrusel-sidebar-container">
+                <aside class="sidebar-left">
+                    <div class="sidebar-section mobile-collapsible">
+                        <h3 class="mobile-toggle">
+                            <span>Categorías</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h3>
+                        <div class="collapsible-content">
+                            <ul class="categorias-lista">
+                                <li><i class="fas fa-bread-slice"></i> Panes Artesanales</li>
+                                <li><i class="fas fa-birthday-cake"></i> Pasteles</li>
+                                <li><i class="fas fa-cookie"></i> Galletas</li>
+                                <li><i class="fas fa-coffee"></i> Café y Bebidas</li>
+                                <li><i class="fas fa-cheese"></i> Productos Salados</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section mobile-collapsible">
+                        <h3 class="mobile-toggle">
+                            <span>Ofertas del Día</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h3>
+                        <div class="collapsible-content">
+                            <div class="oferta destacada">
+                                <div class="oferta-badge">HOY</div>
+                                <h4>Pan del Día</h4>
+                                <p class="precio"><span class="precio-anterior">$5.000</span> $3.500</p>
+                                <button class="btn-comprar"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <section id="inicio" class="carrusel-section">
+                    <div class="carrusel">
+                        <div class="slides">
+                            <div class="slide active">
+                                <img src="img/pan1.jpg" alt="Pan artesanal">
+                                <div class="slide-content">
+                                    <h2>Pan Artesanal Recién Horneado</h2>
+                                    <p>Elaborado con ingredientes naturales</p>
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <img src="img/pastel1.jpg" alt="Pastel de chocolate">
+                                <div class="slide-content">
+                                    <h2>Pasteles para Ocasiones Especiales</h2>
+                                    <p>Personalizados a tu gusto</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                        <button class="next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+                        <div class="dots"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="main-content">
+                <section id="productos" class="productos-section">
+                    <h2 class="section-title productos-title"><span>Nuestros Productos Destacados</span></h2>
+                    <div class="productos">
+                        <article class="producto">
+                            <div class="producto-imagen">
+                                <img src="img/pan1.jpg" alt="Pan artesanal">
+                                <div class="producto-overlay">
+                                    <button class="btn-comprar">Ver Detalles</button>
+                                </div>
+                            </div>
+                            <div class="producto-info">
+                                <h3>Pan Artesanal</h3>
+                                <p class="descripcion">Delicioso pan horneado con ingredientes naturales</p>
+                                <p class="precio">$4.500</p>
+                            </div>
+                        </article>
+                        <!-- Más productos... -->
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sidebar-right">
+                <div class="sidebar-section mobile-collapsible">
+                    <h3 class="mobile-toggle">
+                        <span>Horario de Atención</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <div class="collapsible-content">
+                        <ul class="horario-lista">
+                            <li>
+                                <span>Lunes a Viernes</span>
+                                <div class="horario-detalle">
+                                    <i class="far fa-clock"></i>
+                                    7:00 AM - 8:00 PM
+                                </div>
+                            </li>
+                            <li>
+                                <span>Sábados</span>
+                                <div class="horario-detalle">
+                                    <i class="far fa-clock"></i>
+                                    7:00 AM - 6:00 PM
+                                </div>
+                            </li>
+                            <li>
+                                <span>Domingos</span>
+                                <div class="horario-detalle">
+                                    <i class="far fa-clock"></i>
+                                    8:00 AM - 2:00 PM
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sidebar-section mobile-collapsible">
+                    <h3 class="mobile-toggle">
+                        <span>Reseñas Recientes</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </h3>
+                    <div class="collapsible-content">
+                        <div class="resenas">
+                            <div class="resena">
+                                <div class="resena-header">
+                                    <img src="img/avatar1.jpg" alt="Usuario" class="avatar">
+                                    <div class="resena-info">
+                                        <h4>María García</h4>
+                                        <div class="estrellas">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>"El mejor pan artesanal que he probado"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <div class="contact-buttons">
+            <a href="https://wa.me/0573166495337" class="whatsapp-btn" aria-label="Contactar por WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span>Contactar por WhatsApp</span>
+            </a>
+            <a href="tel:+0573166495337" class="call-btn" aria-label="Llamar">
+                <i class="fas fa-phone"></i>
+                <span>Llamar Ahora</span>
+            </a>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Calle Principal #123</p>
+                    <p><i class="fas fa-phone"></i> Teléfono: (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> Email: info@panaderia.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Panadería & Pastelería Artesanal. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
