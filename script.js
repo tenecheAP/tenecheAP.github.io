@@ -1,136 +1,139 @@
 $(document).ready(function() {
-    // Carrusel
+    // Cache de selectores DOM frecuentemente usados
+    const $carrusel = $(".carrusel");
+    const $slides = $(".slide");
+    const $dots = $(".dots");
+    const totalSlides = $slides.length;
     let currentSlide = 0;
-    const slides = $(".slide");
-    const totalSlides = slides.length;
+    let slideInterval;
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-    // Crear dots para navegación
-    const dotsContainer = $(".dots");
-    slides.each((index) => {
-        dotsContainer.append(`<div class="dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></div>`);
-    });
+    // Configuración
+    const CONFIG = {
+        autoPlayInterval: window.innerWidth < 768 ? 3000 : 5000,
+        swipeThreshold: 50,
+        scrollOffset: 70,
+        scrollTopShowButton: 300,
+        scrollMenuOffset: 100
+    };
 
-    function showSlide(index) {
-        slides.removeClass("active");
-        $(".dot").removeClass("active");
+    // Inicialización del carrusel
+    const initCarousel = () => {
+        $slides.each((index) => {
+            $dots.append(`<div class="dot ${index === 0 ? 'active' : ''}" data-slide="${index}"></div>`);
+        });
+        startAutoPlay();
+    };
+
+    // Función mejorada para mostrar slides
+    const showSlide = (index) => {
+        $slides.removeClass("active").eq(index).addClass("active");
+        $(".dot").removeClass("active").filter(`[data-slide="${index}"]`).addClass("active");
+    };
+
+    // Control del autoplay
+    const startAutoPlay = () => {
+        stopAutoPlay();
+        slideInterval = setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }, CONFIG.autoPlayInterval);
+    };
+
+    const stopAutoPlay = () => {
+        clearInterval(slideInterval);
+    };
+
+    // Manejo de eventos touch
+    const handleSwipe = () => {
+        const swipeDistance = touchEndX - touchStartX;
         
-        slides.eq(index).addClass("active");
-        $(`.dot[data-slide="${index}"]`).addClass("active");
-    }
+        if (Math.abs(swipeDistance) > CONFIG.swipeThreshold) {
+            currentSlide = (currentSlide + (swipeDistance > 0 ? -1 : 1) + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+    };
 
-    // Navegación con flechas
-    $(".next").click(function() {
+    // Event Listeners
+    $(".next").on('click', () => {
         currentSlide = (currentSlide + 1) % totalSlides;
         showSlide(currentSlide);
     });
 
-    $(".prev").click(function() {
+    $(".prev").on('click', () => {
         currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
         showSlide(currentSlide);
     });
 
-    // Navegación con dots
-    $(".dot").click(function() {
+    $(".dot").on('click', function() {
         currentSlide = parseInt($(this).data("slide"));
         showSlide(currentSlide);
     });
 
-    // Variables para el swipe
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    // Modificar el auto-play para que sea más rápido en móvil
-    const autoPlayInterval = window.innerWidth < 768 ? 3000 : 5000;
-    
-    // Actualizar el intervalo inicial
-    let slideInterval = setInterval(() => {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        showSlide(currentSlide);
-    }, autoPlayInterval);
+    // Eventos touch
+    $carrusel
+        .on('touchstart', (e) => touchStartX = e.originalEvent.touches[0].clientX)
+        .on('touchend', (e) => {
+            touchEndX = e.originalEvent.changedTouches[0].clientX;
+            handleSwipe();
+        })
+        .hover(stopAutoPlay, startAutoPlay);
 
-    // Eventos touch para el swipe
-    $(".carrusel").on('touchstart', function(e) {
-        touchStartX = e.originalEvent.touches[0].clientX;
-    });
-
-    $(".carrusel").on('touchend', function(e) {
-        touchEndX = e.originalEvent.changedTouches[0].clientX;
-        handleSwipe();
-    });
-
-    function handleSwipe() {
-        const swipeThreshold = 50; // Mínima distancia para considerar un swipe
-        const swipeDistance = touchEndX - touchStartX;
-        
-        if (Math.abs(swipeDistance) > swipeThreshold) {
-            if (swipeDistance > 0) {
-                // Swipe derecha - slide anterior
-                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            } else {
-                // Swipe izquierda - siguiente slide
-                currentSlide = (currentSlide + 1) % totalSlides;
-            }
-            showSlide(currentSlide);
-        }
-    }
-
-    // Actualizar el hover para usar el nuevo intervalo
-    $(".carrusel").hover(
-        function() { clearInterval(slideInterval); },
-        function() {
-            slideInterval = setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                showSlide(currentSlide);
-            }, autoPlayInterval);
-        }
-    );
-
-    // Menús móviles
-    $(".mobile-toggle").click(function() {
-        const parent = $(this).closest(".mobile-collapsible");
-        
-        // Si el elemento clickeado no está activo, cerramos todos los demás
-        if (!parent.hasClass("active")) {
+    // Navegación móvil
+    $(".mobile-toggle").on('click', function() {
+        const $parent = $(this).closest(".mobile-collapsible");
+        if (!$parent.hasClass("active")) {
             $(".mobile-collapsible.active").removeClass("active");
         }
-        
-        parent.toggleClass("active");
+        $parent.toggleClass("active");
     });
 
-    // Smooth scroll para enlaces de navegación
-    $('a[href^="#"]').click(function(e) {
+    // Smooth scroll mejorado
+    $('a[href^="#"]').on('click', function(e) {
         e.preventDefault();
-        const target = $($(this).attr('href'));
+        const $target = $($(this).attr('href'));
         
-        if (target.length) {
+        if ($target.length) {
             $('html, body').animate({
-                scrollTop: target.offset().top - 70
+                scrollTop: $target.offset().top - CONFIG.scrollOffset
             }, 1000);
         }
     });
 
-    // Activar/desactivar clase active en menú al scroll
-    $(window).scroll(function() {
+    // Manejo del scroll con throttle
+    const throttle = (func, limit) => {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    };
+
+    $(window).on('scroll', throttle(function() {
         const scrollPosition = $(this).scrollTop();
 
+        // Actualizar menú activo
         $('section[id]').each(function() {
-            const target = $(this);
-            const targetTop = target.offset().top - 100;
-            const targetBottom = targetTop + target.outerHeight();
+            const $target = $(this);
+            const targetTop = $target.offset().top - CONFIG.scrollMenuOffset;
+            const targetBottom = targetTop + $target.outerHeight();
 
             if (scrollPosition >= targetTop && scrollPosition <= targetBottom) {
                 $('.menu a').removeClass('active');
-                $(`.menu a[href="#${target.attr('id')}"]`).addClass('active');
+                $(`.menu a[href="#${$target.attr('id')}"]`).addClass('active');
             }
         });
-    });
 
-    // Mostrar/ocultar botón de scroll to top
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 300) {
-            $('.scroll-to-top').fadeIn();
-        } else {
-            $('.scroll-to-top').fadeOut();
-        }
-    });
+        // Toggle botón scroll-to-top
+        $('.scroll-to-top').toggle(scrollPosition > CONFIG.scrollTopShowButton);
+    }, 100));
+
+    // Inicializar carrusel
+    initCarousel();
 });
